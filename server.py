@@ -29,12 +29,12 @@ def read_root():
     return {"message": "Welcome to the Test Item Store API!"}
 
 # Route to get all items
-@app.get("/items/", response_model=List[Item], status_code=200)
+@app.get("/items/", response_model=List[Item])
 def get_items():
     return items_db
 
 # Route to get a specific item by ID
-@app.get("/items/search/id/{item_id}", response_model=Item, status_code=200)
+@app.get("/items/search/id/{item_id}", response_model=Item)
 def search_item_via_id(item_id: int):
 
     for item in items_db:
@@ -44,7 +44,7 @@ def search_item_via_id(item_id: int):
     raise HTTPException(status_code=404, detail="Item not found")
 
 # Route to get a specific item by name or partial name
-@app.get("/items/search/name/{name}", response_model=List[Item], status_code=200)
+@app.get("/items/search/name/{name}", response_model=List[Item])
 def search_item_via_name(name: str):
     
     if not name:
@@ -64,7 +64,7 @@ def search_item_via_name(name: str):
     return results
 
 # Route to create a new item
-@app.post("/items/", response_model=Item, status_code=201)
+@app.post("/items/", response_model=Item)
 def create_item(item: Item):
     for existing_item in items_db:
         if get_id(existing_item) == get_id(item):
@@ -74,7 +74,7 @@ def create_item(item: Item):
     return item
 
 # Route to update an existing item
-@app.put("/items/{item_id}", response_model=Item, status_code=200)
+@app.put("/items/{item_id}", response_model=Item)
 def update_item(item_id: int, updated_item: Item):
 
     index = 0
@@ -88,7 +88,7 @@ def update_item(item_id: int, updated_item: Item):
     raise HTTPException(status_code=404, detail="Item not found")
 
 # Route to delete an item
-@app.delete("/items/{item_id}", status_code=200)
+@app.delete("/items/{item_id}")
 def delete_item(item_id: int):
 
     index = 0
@@ -102,7 +102,7 @@ def delete_item(item_id: int):
     raise HTTPException(status_code=404, detail="Item not found")
 
 # Route to get items within a price range
-@app.get("/items/price-range/", response_model=List[Item], status_code=200)
+@app.get("/items/price-range/", response_model=List[Item])
 def get_items_in_price_range(min_price: float, max_price: float):
     
     if min_price < 0 or max_price < 0:
